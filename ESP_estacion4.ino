@@ -1,6 +1,6 @@
 #include <PubSubClient.h>
-#include <ESP32HTTPUpdateServer.h>
-#include <EspMQTTClient.h>
+
+#include "EspMQTTClient.h"
 
 EspMQTTClient client(
   "Family_rios",
@@ -11,7 +11,7 @@ EspMQTTClient client(
   "estacion4"      // Cliente, nombre del dispositivo 
 );
 int produccion;
-int botellas;.
+int botellas;
 int btl;
 int req_botellas;
 int Six_pack;
