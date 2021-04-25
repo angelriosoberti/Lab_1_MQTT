@@ -10,32 +10,53 @@ EspMQTTClient client(
   "",//aqui va la contraseña mqtt
   "estacion4"      // Cliente, nombre del dispositivo 
 );
-int variable=0;
+int produccion;
+int botellas;.
+int btl;
+int req_botellas;
+int Six_pack;
+String sub_botellas;
+
 void setup() {
-  Serial.begin(9600);
-  
+  Serial.begin(115200);
+  client.enableDebuggingMessages(); // Enable debugging messages sent to serial output
+  client.enableHTTPWebUpdater(); // Enable the web updater. User and password default to values of MQTTUsername and MQTTPassword. These can be overrited with enableHTTPWebUpdater("user", "password").
+  client.enableLastWillMessage("TestClient/lastwill", "I am going offline");  // You can activate the retain flag by setting the third parameter to true
   }
 
 void onConnectionEstablished() {
-
-  client.subscribe("embasadora/estacion3/Produccion", [] (const String &payload)  {
-    Serial.println(payload);
+  // Suscribirse a el topic de stock_botellas y 
+    client.subscribe("embasadora/estacion2/stockbotellas", [](const String & payload1) {
+    Serial.println(payload1);
+    sub_botellas = payload1;
   });
- /*   client.subscribe("mytopic/test", [] (const String &payload)  {
-    Serial.println(payload);
-  });*/
+  // Publicaciones con sus respectivos topics.
+  client.publish("embasadora/estacion4/produccion", String(produccion) /*colocar aca la variable en string*/ );
+  client.publish("embasadora/estacion1/botellas",String(botellas)  /*colocar aca la variable*/);
+  client.publish("embasadora/estacion1/six_pack", String(Six_pack)/*colocar aca la variable*/);
+  }
 
- 
-  client.publish("embasadora/estacion1/S_calidad",String(variable) /*colocar aca la variable en string*/);
-  client.publish("embasadora/estacion1/S_numbotella","2" /*colocar aca la variable*/);
-  client.publish("embasadora/estacion1/S_", "1"/*colocar aca la variable*/);
-  client.publish("embasadora/estacion1/S_volumen","1800" /*colocar aca la variable*/);
-
-}
 
 void loop() {
-  variable = variable + 1 ;
+    //colocar la logica 
+  
   client.loop();
+  
+if ( sub_botellas == "0")
+{
+  req_botellas= produccion
+       
+}else{
+  produccion -=;
+  botellas+=;
+  btl +=;
+  if(btl >= 6){
+     Six_pack +=;
+    btl = 0; 
+  }
+        
+}
   onConnectionEstablished();
-  delay(1000);
+    delay(1500);
+
 }

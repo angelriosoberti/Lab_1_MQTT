@@ -10,32 +10,46 @@ EspMQTTClient client(
   "",//aqui va la contraseña mqtt
   "estacion2"      // Cliente, nombre del dispositivo 
 );
-int variable=0;
+
+
+bool S_Calidad;
+int stock_botellas = 500;
+String sub_Prod;
+String sub_botellas;
+
 void setup() {
-  Serial.begin(9600);
-  
+  Serial.begin(115200);
+  client.enableDebuggingMessages(); // Enable debugging messages sent to serial output
+  client.enableHTTPWebUpdater(); // Enable the web updater. User and password default to values of MQTTUsername and MQTTPassword. These can be overrited with enableHTTPWebUpdater("user", "password").
+  //client.enableLastWillMessage("TestClient/lastwill", "I am going offline");  // You can activate the retain flag by setting the third parameter to true
   }
 
 void onConnectionEstablished() {
 
-  client.subscribe("embasadora/estacion3/Produccion", [] (const String &payload)  {
+  // Suscribirse a el topic de produccion y 
+  client.subscribe("embasadora/estacion4/produccion", [](const String & payload) {
     Serial.println(payload);
+    sub_Prod = payload;
   });
- /*   client.subscribe("mytopic/test", [] (const String &payload)  {
-    Serial.println(payload);
-  });*/
 
- 
-  client.publish("embasadora/estacion1/S_flujo",String(variable) /*colocar aca la variable en string*/);
-  client.publish("embasadora/estacion1/S_temperatura","2" /*colocar aca la variable*/);
-  client.publish("embasadora/estacion1/S_particula", "1"/*colocar aca la variable*/);
-  client.publish("embasadora/estacion1/S_volumen","1800" /*colocar aca la variable*/);
+  
+// Publicaciones con sus respectivos topics.
+  client.publish("embasadora/estacion2/S_Calidad", String(S_Calidad) /*colocar aca la variable en string*/ );
+  client.publish("embasadora/estacion2/stockbotellas",String(stock_botellas)  /*colocar aca la variable*/);
+  
 
 }
 
+
 void loop() {
-  variable = variable + 1 ;
+    //colocar la logica 
+  
   client.loop();
+  S_Calidad = true;
+  stock_botellas -=;
+ 
   onConnectionEstablished();
-  delay(1000);
+    delay(1500);
+
+
 }
