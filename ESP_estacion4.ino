@@ -32,8 +32,8 @@ void onConnectionEstablished() {
   });
   // Publicaciones con sus respectivos topics.
   client.publish("embasadora/estacion4/produccion", String(produccion) /*colocar aca la variable en string*/ );
-  client.publish("embasadora/estacion1/botellas",String(botellas)  /*colocar aca la variable*/);
-  client.publish("embasadora/estacion1/six_pack", String(Six_pack)/*colocar aca la variable*/);
+  client.publish("embasadora/estacion4/botellas",String(botellas)  /*colocar aca la variable*/);
+  client.publish("embasadora/estacion4/six_pack", String(Six_pack)/*colocar aca la variable*/);
   }
 
 
@@ -44,14 +44,14 @@ void loop() {
   
 if ( sub_botellas == "0")
 {
-  req_botellas= produccion
+  req_botellas= produccion;
        
 }else{
-  produccion -=;
-  botellas+=;
-  btl +=;
+  produccion = produccion -1 ;
+  botellas=botellas+1;
+  btl = btl +1;
   if(btl >= 6){
-     Six_pack +=;
+     Six_pack = Six_pack + 1 ;
     btl = 0; 
   }
         
